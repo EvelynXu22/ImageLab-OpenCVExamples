@@ -42,12 +42,11 @@ int i = 0;
     cvtColor(_image, image_copy, CV_BGRA2BGR); // get rid of alpha for processing
     avgPixelIntensity = cv::mean( image_copy );
 
-    sprintf(text,"Avg. R: %.0f, G: %.0f, B: %.0f", avgPixelIntensity.val[0],avgPixelIntensity.val[1],avgPixelIntensity.val[2]);
-    
     float red = avgPixelIntensity[0];
     float green = avgPixelIntensity[1];
     float blue = avgPixelIntensity[2];
     
+    sprintf(text,"Avg. R: %.0f, G: %.0f, B: %.0f", red,green,blue);
     
     cv::putText(_image, text, cv::Point(20, 40), FONT_HERSHEY_PLAIN, 0.75, Scalar::all(255), 1, 2);
 
