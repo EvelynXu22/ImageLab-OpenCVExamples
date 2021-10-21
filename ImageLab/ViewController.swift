@@ -85,6 +85,7 @@ class ViewController: UIViewController   {
                              andContext: self.videoManager.getCIContext())
         
         self.bridge.processFinger()
+        
         retImage = self.bridge.getImageComposite() // get back opencv processed part of the image (overlayed on original)
         
         return retImage

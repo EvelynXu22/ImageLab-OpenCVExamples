@@ -18,32 +18,61 @@ using namespace cv;
 @property (nonatomic) CGAffineTransform transform;
 @property (nonatomic) CGAffineTransform inverseTransform;
 @property (atomic) cv::CascadeClassifier classifier;
-@property (atomic) NSArray* meanValue;
+
 @end
 
 @implementation OpenCVBridge
 
 
-
+int i = 0;
 #pragma mark ===Write Your Code Here===
 // alternatively you can subclass this class and override the process image function
 -(bool)processFinger{
 
-        cv::Mat image_copy;
-        // fine, adding scoping to case statements to get rid of jump errors
-        char text[50];
-        Scalar avgPixelIntensity;
+    cv::Mat image_copy;
+    // fine, adding scoping to case statements to get rid of jump errors
+    char text[50],text2[50];
 
-        cvtColor(_image, image_copy, CV_BGRA2BGR); // get rid of alpha for processing
-        avgPixelIntensity = cv::mean( image_copy );
-        sprintf(text,"Avg. R: %.0f, G: %.0f, B: %.0f", avgPixelIntensity.val[0],avgPixelIntensity.val[1],avgPixelIntensity.val[2]);
-        
+    float redValue[100];
+    float greenValue[100];
+    float blueValue[100];
+
+    Scalar avgPixelIntensity;
+
+    cvtColor(_image, image_copy, CV_BGRA2BGR); // get rid of alpha for processing
+    avgPixelIntensity = cv::mean( image_copy );
+
+    sprintf(text,"Avg. R: %.0f, G: %.0f, B: %.0f", avgPixelIntensity.val[0],avgPixelIntensity.val[1],avgPixelIntensity.val[2]);
     
-        cv::putText(_image, text, cv::Point(0, 10), FONT_HERSHEY_PLAIN, 0.75, Scalar::all(255), 1, 2);
-        //Test
-        printf(text,"Avg. R: %.0f, G: %.0f, B: %.0f", avgPixelIntensity.val[0],avgPixelIntensity.val[1],avgPixelIntensity.val[2]);
-//       break;
+    float red = avgPixelIntensity[0];
+    float green = avgPixelIntensity[1];
+    float blue = avgPixelIntensity[2];
     
+    
+    cv::putText(_image, text, cv::Point(20, 40), FONT_HERSHEY_PLAIN, 0.75, Scalar::all(255), 1, 2);
+
+    
+    if(i<100){
+        if(red <= 20 && green <= 20 && blue <= 20){
+            i++;
+            redValue[i] = red;
+            greenValue[i] = green;
+            blueValue[i] = blue;
+            std::cout<<redValue[i];
+            std::cout<<"i"<<i;
+        }
+    }
+    else{
+        if(red <= 20 && green <= 20 && blue <= 20){
+            sprintf(text2,"Being Covered!!!!!");
+            cv::putText(_image, text2, cv::Point(20, 50), FONT_HERSHEY_PLAIN, 0.75, Scalar::all(255), 1, 2);
+//            printf("true");
+        }
+        else{
+            i = 0;
+        }
+    }
+
     
     return false;
 }
